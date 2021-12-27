@@ -6,7 +6,6 @@ import {auditoryResp} from '../../api/entities/response/auditoryResp'
 import {addAuditory, getAuditoryArr} from "../../api/ScheduleApi";
 
 export const AuditoryPage: React.FC = () => {
-    // const auditories = useTracker(() => AuditoryCollection.find({}, { sort: { name: 1 } }).fetch())
 
     const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
     const [addFormShow, setAddFormShow] = useState(false)
@@ -39,7 +38,7 @@ export const AuditoryPage: React.FC = () => {
             <div>
                 {
                     auditoryRespArr != undefined &&
-                    auditoryRespArr.map(audit => <AuditoryCard key={audit.id} auditoryRequest={audit} auditoryReqArr={a => getAuditoryArr().finally(() => refresh())} />)
+                    auditoryRespArr.map(audit => <AuditoryCard key={audit.id} auditoryRequest={audit} auditoryId = {audit.id} auditoryReqArr={a => getAuditoryArr().finally(() => refresh())} />)
                 }
             </div>
         </div>

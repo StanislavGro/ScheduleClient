@@ -4,7 +4,9 @@ export const URL_SCHEDULE = (): string => `${BASE_URL}schedules`
 
 export const URL_GET_POST_AUDITORY = (): string => `${BASE_URL}schedules/auditories`
 
-export const URL_DELETE_PUT_AUDITORY  = (parkingId: number): string => `${BASE_URL}schedules/auditories/${parkingId}`
+export const URL_DELETE_PUT_AUDITORY  = (auditoryId: number): string => `http://localhost:5000/schedules/auditories/${auditoryId}`
+
+export const URL_GET_POST_GROUP = (): string => `${BASE_URL}schedules/groups`
 
 
 export const METHOD_DELETE = (): any => {
@@ -18,7 +20,7 @@ export const METHOD_DELETE = (): any => {
 }
 
 export const METHOD_POST = (data: {}): any => {
-    console.log(JSON.stringify(data))
+    // console.log(JSON.stringify(data))
     return {
         // mode: 'no-cors',
         method: 'POST',
@@ -42,7 +44,7 @@ export const METHOD_PUT = (data: {}): any => {
 }
 
 export function api<T>(url: string, options?: any, params?: any): Promise<T> {
-    console.log(url + (params === undefined ? '' : `?${new URLSearchParams(params).toString()}`) + options)
+    console.log("API: " + url + (params === undefined ? '' : `?${new URLSearchParams(params).toString()}`) + options)
     return fetch(url + (params === undefined ? '' : `?${new URLSearchParams(params).toString()}`), options).then(response => {
             if (!response.ok) {
                 throw new Error(response.statusText)

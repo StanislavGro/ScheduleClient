@@ -1,38 +1,43 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Properties } from '../Properties'
 import { AuditoryForm } from './AuditoryForm'
 import {auditoryReq} from '../../api/entities/request/auditoryReq'
-import './../Schedule/schedule.css'
+import './../Schedule/main.css'
 import './../Schedule/scheduleCard.css'
 import './../Schedule/scheduleForm.css'
 import './../Schedule/schedulePage.css'
+import {deleteAuditory, getAuditoryArr} from "../../api/ScheduleApi";
+import {auditoryResp} from "../../api/entities/response/auditoryResp";
 
 interface Props {
     auditoryRequest: auditoryReq
+    auditoryId: number
     auditoryReqArr: ( a: auditoryReq) => void
 }
 
-export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryReqArr }) => {
-
-    // const schedulesFromDB = useTracker(() => ScheduleCollection.find({}).fetch())
+export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, auditoryReqArr }) => {
 
     const [isEdit, setIsEdit] = useState(false)
+    const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
+
+    const refresh = () => {
+        return getAuditoryArr()
+            .then(res => setAuditoryRespArr(res))
+    }
+
+    useEffect(() => {
+        refresh()
+    },[])
 
     const onEdit = (newAuditory: auditoryReq) => {
         console.log("Редактируем" + auditoryRequest)
-        // AuditoryCollection.update(auditory._id ?? new Mongo.ObjectID(''), newAuditory)
         setIsEdit(false)
     }
 
     const onDelete = () => {
-        console.log("Удаляем" + auditoryRequest)
+        console.log("Удаляем " + auditoryId)
+        deleteAuditory(auditoryId).finally(() => refresh())
 
-        // schedulesFromDB.forEach(sch => {
-        //     if (sch.auditory._id.equals(auditory._id ?? new Mongo.ObjectID('')))
-        //         ScheduleCollection.remove(sch._id ?? new Mongo.ObjectID(''));
-        // })
-        //
-        // AuditoryCollection.remove(auditory._id ?? new Mongo.ObjectID(''))
     }
 
     return (
