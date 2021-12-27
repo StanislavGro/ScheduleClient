@@ -6,7 +6,7 @@ import './../Schedule/main.css'
 import './../Schedule/scheduleCard.css'
 import './../Schedule/scheduleForm.css'
 import './../Schedule/schedulePage.css'
-import {deleteAuditory, getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
+import {addSchedule, getScheduleArr} from "../../api/ScheduleApi";
 import {scheduleResp} from "../../api/entities/response/scheduleResp";
 import './scheduleCard.css'
 import {auditoryReq} from "../../api/entities/request/auditoryReq";
@@ -40,7 +40,8 @@ export const ScheduleCard: React.FC<Props> = ({ scheduleRequest, scheduleId, sch
 
     const onDelete = () => {
         console.log("Удаляем " + scheduleId)
-        deleteAuditory(scheduleId).finally(() => refresh())    }
+        // delete(scheduleId).finally(() => refresh())
+    }
 
     return (
         <div className="card schedule-card">

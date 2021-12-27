@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { useTracker } from 'meteor/react-meteor-data';
 import { Properties } from '../Properties'
-import { ScheduleCollection, AuditoryCollection } from '../../api/Collections'
-import { Mongo } from 'meteor/mongo'
 
 import './scheduleFormFindTwo.css'
 
@@ -14,8 +11,8 @@ interface Props {
 
 export const ScheduleFormFindTwo: React.FC<Props> = ({ week, numberOfHours, onSubmit }) => {
 
-    const schedulesFromDB = useTracker(() => ScheduleCollection.find({}).fetch())
-    const auditoriesFromDB = useTracker(() => AuditoryCollection.find({}).fetch())
+    // const schedulesFromDB = useTracker(() => ScheduleCollection.find({}).fetch())
+    // const auditoriesFromDB = useTracker(() => AuditoryCollection.find({}).fetch())
 
     const [week_, setWeek] = useState(week ?? 0)
     const [numberOfHours_, setNumberOfHours] = useState(numberOfHours ?? 0)
@@ -36,18 +33,18 @@ export const ScheduleFormFindTwo: React.FC<Props> = ({ week, numberOfHours, onSu
             findInfo.className = "property-title"
             findInfo.innerHTML = ""
 
-            auditoriesFromDB.forEach(aud => {
-                schedulesFromDB.forEach(sched => {
-                    if (sched.auditory._id.equals(aud._id ?? new Mongo.ObjectID('')) && sched.week == week_)
-                        amountOfMaxLessons--
-                })
-                if (amountOfMaxLessons < amountOfNecessaryLessons)
-                    findInfo.innerHTML += aud.name + " аудитория не подойдет<br>"
-                else
-                    findInfo.innerHTML += aud.name + " аудитория подойдет<br>"
-
-                amountOfMaxLessons = 42
-            })
+            // auditoriesFromDB.forEach(aud => {
+            //     schedulesFromDB.forEach(sched => {
+            //         if (sched.auditory._id.equals(aud._id ?? new Mongo.ObjectID('')) && sched.week == week_)
+            //             amountOfMaxLessons--
+            //     })
+            //     if (amountOfMaxLessons < amountOfNecessaryLessons)
+            //         findInfo.innerHTML += aud.name + " аудитория не подойдет<br>"
+            //     else
+            //         findInfo.innerHTML += aud.name + " аудитория подойдет<br>"
+            //
+            //     amountOfMaxLessons = 42
+            // })
 
             document.getElementById("ScheduleFormFindTwo")?.append(findInfo)
         }

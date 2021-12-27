@@ -8,14 +8,18 @@ import './../Schedule/scheduleForm.css'
 import './../Schedule/schedulePage.css'
 import {deleteAuditory, getAuditoryArr} from "../../api/ScheduleApi";
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
+import {AuditoryPage} from "../../ui/Auditory/AuditoryPage"
 
 interface Props {
     auditoryRequest: auditoryReq
     auditoryId: number
     auditoryReqArr: ( a: auditoryReq) => void
+    deleteParking: (auditoryId: number) => void
+
 }
 
 export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, auditoryReqArr }) => {
+
 
     const [isEdit, setIsEdit] = useState(false)
     const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
@@ -37,7 +41,6 @@ export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, aud
     const onDelete = () => {
         console.log("Удаляем " + auditoryId)
         deleteAuditory(auditoryId).finally(() => refresh())
-
     }
 
     return (

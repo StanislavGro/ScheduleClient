@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import { useTracker } from 'meteor/react-meteor-data';
-import { /*AuditoryCollection,*/ Schedule, ScheduleCollection, /*GroupCollection*/ } from '../../api/Collections';
-import { ScheduleCard } from './ScheduleCard';
-import { ScheduleForm } from './ScheduleForm';
-import { ScheduleFormFindOne } from './ScheduleFormFindOne';
-import { ScheduleFormFindTwo } from './ScheduleFormFindTwo';
+import React, {useState} from 'react';
+import {ScheduleCard} from './ScheduleCard';
+import {ScheduleForm} from './ScheduleForm';
+import {ScheduleFormFindOne} from './ScheduleFormFindOne';
+import {ScheduleFormFindTwo} from './ScheduleFormFindTwo';
+import {scheduleResp} from '../../api/entities/response/scheduleResp'
+import {scheduleReq} from '../../api/entities/request/scheduleReq'
 
 
 export const SchedulePage: React.FC = () => {
 
-    const [search, setSearch] = useState<{ [key: string]: any }>({})
-
-    const schedules = useTracker(() => ScheduleCollection.find(search, { sort: { auditories: 1 } }).fetch())
-
+    const [scheduleRespArr, setScheduleRespArr] = useState<scheduleResp[]>()
     const [addFormShow, setAddFormShow] = useState(false)
     const [findFormShow, setFindFormShow] = useState(false)
     const [findFormShow2, setFindFormShow2] = useState(false)
 
-    const onAddSubmit = (schedule: Schedule) => {
-        ScheduleCollection.insert(schedule)
+    const [search, setSearch] = useState<{ [key: string]: any }>({})
+
+    const onAddSubmit = (schedule: scheduleReq) => {
+        // ScheduleCollection.insert(schedule)
         setAddFormShow(false)
     }
 
@@ -63,7 +62,10 @@ export const SchedulePage: React.FC = () => {
                 }
             </div>
             <div>
-                {schedules.map(schedule => <ScheduleCard key={schedule._id?.toHexString()} schedule={schedule} />)}
+                {
+                    scheduleRespArr != undefined &&
+                    scheduleRespArr.map(schedule => <ScheduleCard key={schedule._id} scheduleRequest={schedule} />)
+                }
             </div>
         </div>
     )

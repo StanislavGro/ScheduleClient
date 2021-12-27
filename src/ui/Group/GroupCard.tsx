@@ -6,7 +6,7 @@ import './../Schedule/main.css'
 import './../Schedule/scheduleCard.css'
 import './../Schedule/scheduleForm.css'
 import './../Schedule/schedulePage.css'
-import {deleteAuditory, getGroupArr} from "../../api/ScheduleApi";
+import {deleteAuditory, deleteGroup, getGroupArr} from "../../api/ScheduleApi";
 import {groupResp} from "../../api/entities/response/groupResp";
 import {auditoryReq} from "../../api/entities/request/auditoryReq";
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
@@ -38,9 +38,8 @@ export const GroupCard: React.FC<Props> = ({ groupRequest, groupId, groupReqArr 
     }
 
     const onDelete = () => {
-
-        console.log("Удаляем " + groupId)
-        deleteAuditory(groupId).finally(() => refresh())
+        console.log("Удаляем из группы " + groupId)
+        deleteGroup(groupId).finally(() => refresh())
     }
 
     return (

@@ -3,7 +3,7 @@ import { AuditoryCard } from './AuditoryCard';
 import { AuditoryForm } from './AuditoryForm';
 import {auditoryReq} from '../../api/entities/request/auditoryReq'
 import {auditoryResp} from '../../api/entities/response/auditoryResp'
-import {addAuditory, getAuditoryArr} from "../../api/ScheduleApi";
+import {addAuditory, deleteAuditory, getAuditoryArr} from "../../api/ScheduleApi";
 
 export const AuditoryPage: React.FC = () => {
 
@@ -38,7 +38,12 @@ export const AuditoryPage: React.FC = () => {
             <div>
                 {
                     auditoryRespArr != undefined &&
-                    auditoryRespArr.map(audit => <AuditoryCard key={audit.id} auditoryRequest={audit} auditoryId = {audit.id} auditoryReqArr={a => getAuditoryArr().finally(() => refresh())} />)
+                    auditoryRespArr.map(audit => <AuditoryCard key={audit.id}
+                                                               auditoryRequest={audit}
+                                                               auditoryId = {audit.id}
+                                                               auditoryReqArr={a => getAuditoryArr().finally(() => refresh())}
+                                                               deleteParking={auditoryId => { deleteAuditory(auditoryId).finally(() => refresh()) }
+                                                               }/>)
                 }
             </div>
         </div>

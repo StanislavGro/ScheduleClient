@@ -8,6 +8,7 @@ export const URL_DELETE_PUT_AUDITORY  = (auditoryId: number): string => `http://
 
 export const URL_GET_POST_GROUP = (): string => `${BASE_URL}schedules/groups`
 
+export const URL_DELETE_PUT_GROUP = (groupId: number): string =>`${BASE_URL}schedules/groups/${groupId}`
 
 export const METHOD_DELETE = (): any => {
     return {
