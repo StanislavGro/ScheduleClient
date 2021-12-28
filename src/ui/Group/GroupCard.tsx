@@ -33,7 +33,7 @@ export const GroupCard: React.FC<Props> = ({ groupRequest, groupId, groupReqArr 
 
     const onEdit = (newGroup: groupReq) => {
         console.log("Редактируем" + groupRequest)
-        // GroupCollection.update(group._id ?? new Mongo.ObjectID(''), newGroup)
+
         setIsEdit(false)
     }
 

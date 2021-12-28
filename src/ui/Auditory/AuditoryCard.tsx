@@ -6,7 +6,7 @@ import './../Schedule/main.css'
 import './../Schedule/scheduleCard.css'
 import './../Schedule/scheduleForm.css'
 import './../Schedule/schedulePage.css'
-import {deleteAuditory, getAuditoryArr} from "../../api/ScheduleApi";
+import {deleteAuditory, getAuditoryArr, updateAuditory} from "../../api/ScheduleApi";
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
 import {AuditoryPage} from "../../ui/Auditory/AuditoryPage"
 
@@ -34,7 +34,10 @@ export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, aud
     },[])
 
     const onEdit = (newAuditory: auditoryReq) => {
-        console.log("Редактируем" + auditoryRequest)
+        console.log("Редактируем " + auditoryRequest.auditory)
+        console.log("Редактируем " + newAuditory.auditory)
+        console.log("Редактируем " + auditoryId)
+        updateAuditory(auditoryId, newAuditory).finally(() => refresh())
         setIsEdit(false)
     }
 

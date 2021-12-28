@@ -32,7 +32,7 @@ export function addGroup(group: groupReq): Promise<groupResp> {
 }
 
 export function deleteAuditory(auditoryId: number) {
-    console.log("!!!! "+auditoryId)
+    console.log("!!!! " + auditoryId)
     return api(URL_DELETE_PUT_AUDITORY(auditoryId), METHOD_DELETE())
 }
 
@@ -42,4 +42,8 @@ export function getScheduleArr(): Promise<Array<scheduleResp>> {
 
 export function addSchedule(schedule: scheduleReq): Promise<scheduleResp> {
     return api<scheduleResp>(URL_SCHEDULE(), METHOD_POST(schedule) )
+}
+
+export function updateAuditory(auditoryId: number, auditory: auditoryReq): Promise<auditoryResp> {
+    return api<auditoryResp>(URL_DELETE_PUT_AUDITORY(auditoryId), METHOD_PUT(auditory))
 }
