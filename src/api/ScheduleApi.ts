@@ -1,6 +1,14 @@
 import {
-    URL_SCHEDULE, METHOD_PUT, api,
-    METHOD_DELETE, METHOD_POST, URL_GET_POST_AUDITORY, URL_DELETE_PUT_AUDITORY, URL_GET_POST_GROUP, URL_DELETE_PUT_GROUP
+    URL_SCHEDULE,
+    METHOD_PUT,
+    api,
+    METHOD_DELETE,
+    METHOD_POST,
+    URL_GET_POST_AUDITORY,
+    URL_DELETE_PUT_AUDITORY,
+    URL_GET_POST_GROUP,
+    URL_DELETE_PUT_GROUP,
+    URL_DELETE_PUT_SCHEDULE
 }
     from "./base/Api"
 import {auditoryReq} from "./entities/request/auditoryReq";
@@ -52,3 +60,11 @@ export function addSchedule(schedule: scheduleReq): Promise<scheduleResp> {
     return api<scheduleResp>(URL_SCHEDULE(), METHOD_POST(schedule) )
 }
 
+export function updateSchedule(scheduleId: number, schedule: scheduleReq): Promise<scheduleResp> {
+    return api<scheduleResp>(URL_DELETE_PUT_SCHEDULE(scheduleId), METHOD_PUT(schedule))
+}
+
+export function deleteSchedule(scheduleId: number) {
+    console.log("!!!! "+scheduleId)
+    return api(URL_DELETE_PUT_SCHEDULE(scheduleId), METHOD_DELETE())
+}

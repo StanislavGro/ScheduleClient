@@ -6,7 +6,14 @@ import './css/main.css'
 import './css/scheduleCard.css'
 import './css/scheduleForm.css'
 import './css/schedulePage.css'
-import {getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
+import {
+    deleteSchedule,
+    getAuditoryArr,
+    getGroupArr,
+    getScheduleArr,
+    updateAuditory,
+    updateSchedule
+} from "../../api/ScheduleApi";
 import {scheduleResp} from "../../api/entities/response/scheduleResp";
 
 
@@ -33,12 +40,15 @@ export const ScheduleCard: React.FC<Props> = ({ scheduleRequest, scheduleId, sch
     },[])
 
     const onEdit = (newSchedule: scheduleReq) => {
-        console.log("Редактируем" + scheduleRequest)
+        console.log("Редактируем " + scheduleId)
+        console.log("Редактируем " + newSchedule.auditory.auditory)
+        updateSchedule(scheduleId, newSchedule).finally(() => refresh())
         setIsEdit(false)
     }
 
     const onDelete = () => {
         console.log("Удаляем " + scheduleId)
+        deleteSchedule(scheduleId).finally(() => refresh())
         // delete(scheduleId).finally(() => refresh())
     }
 

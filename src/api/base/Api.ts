@@ -10,6 +10,9 @@ export const URL_GET_POST_GROUP = (): string => `${BASE_URL}schedules/groups`
 
 export const URL_DELETE_PUT_GROUP = (groupId: number): string =>`${BASE_URL}schedules/groups/${groupId}`
 
+export const URL_DELETE_PUT_SCHEDULE = (scheduleID: number): string =>`${BASE_URL}schedules/${scheduleID}`
+
+
 export const METHOD_DELETE = (): any => {
     return {
         method: 'DELETE',
@@ -21,7 +24,7 @@ export const METHOD_DELETE = (): any => {
 }
 
 export const METHOD_POST = (data: {}): any => {
-    // console.log(JSON.stringify(data))
+    console.log(JSON.stringify(data))
     return {
         // mode: 'no-cors',
         method: 'POST',
