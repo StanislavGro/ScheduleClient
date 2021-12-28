@@ -4,7 +4,7 @@ import {scheduleReq} from '../../api/entities/request/scheduleReq'
 import './css/scheduleForm.css'
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
 import {groupResp} from "../../api/entities/response/groupResp";
-import {getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
+import {getAuditoryArr, getGroupArr, getScheduleArr} from "../../api/ScheduleApi";
 import {auditoryReq} from "../../api/entities/request/auditoryReq";
 
 interface Props {
@@ -31,24 +31,18 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr,
         console.log("1 " + " " + day + " " + timeStart + " " + timeEnd + " " + group_ + " " + auditory_)
         if (day === '' || timeStart === ''|| timeEnd === '' || week === 0 || auditory_ === '' || group_ === '') return
         onSubmit({
-            day: { day:scheduleRequest?.day.day ?? ''},
-            time: {timeStart: scheduleRequest?.time.timeStart ?? '', timeEnd: scheduleRequest?.time.timeEnd ?? ''},
-            week: scheduleRequest?.week ?? 0,
+            day: { day:day},
+            time: {timeStart: timeStart, timeEnd: timeEnd},
+            week: week,
             auditory: {auditory: auditory_ ?? ''},
             group: { group: group_ ?? ''},
         })
-        setDay('')
-        setTimeStart('')
-        setTimeEnd('')
-        setWeek(0)
-        setAuditory('')
-        setGroup('')
-        console.log("1 " + " " + day + " " + timeStart + " " + timeEnd + " " + group_ + " " + auditory_)
+        console.log("2 " + " " + day + " " + timeStart + " " + timeEnd + " " + group_ + " " + auditory_)
     }
 
     const refresh = () => {
-        return getAuditoryArr()
-            .then(res => setAuditoryRespArr(res))
+        getGroupArr().then(res => setGroupRespArr(res))
+        return getAuditoryArr().then(res => setAuditoryRespArr(res))
     }
 
     useEffect(() => {
@@ -131,8 +125,6 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr,
                     }
                 </select>
             </Properties>
-            {                        console.log(auditoryReqArr)
-            }
             <Properties title="Аудитория:" value={
                 <select defaultValue="defaultAudtory" onChange={e => setAuditory(e.target.value)}>
                     <option disabled value="defaultAudtory">-</option>
@@ -141,7 +133,7 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr,
                         auditoryRespArr.map(a =>
                             <option key={a.id} value={a.auditory}>
                                 {
-                                    auditoryReqArr
+                                    a.auditory
                                 }
                             </option>)
                     }
