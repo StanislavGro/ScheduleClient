@@ -18,6 +18,15 @@ export function addAuditory(auditory: auditoryReq): Promise<auditoryResp> {
     return api<auditoryResp>(URL_GET_POST_AUDITORY(), METHOD_POST(auditory) )
 }
 
+export function deleteAuditory(auditoryId: number) {
+    console.log("!!!! " + auditoryId)
+    return api(URL_DELETE_PUT_AUDITORY(auditoryId), METHOD_DELETE())
+}
+
+export function updateAuditory(auditoryId: number, auditory: auditoryReq): Promise<auditoryResp> {
+    return api<auditoryResp>(URL_DELETE_PUT_AUDITORY(auditoryId), METHOD_PUT(auditory))
+}
+
 export function deleteGroup(groupId: number) {
     console.log("!!!! "+groupId)
     return api(URL_DELETE_PUT_GROUP(groupId), METHOD_DELETE())
@@ -31,9 +40,8 @@ export function addGroup(group: groupReq): Promise<groupResp> {
     return api<groupResp>(URL_GET_POST_GROUP(), METHOD_POST(group) )
 }
 
-export function deleteAuditory(auditoryId: number) {
-    console.log("!!!! " + auditoryId)
-    return api(URL_DELETE_PUT_AUDITORY(auditoryId), METHOD_DELETE())
+export function updateGroup(groupId: number, group: groupReq): Promise<groupResp> {
+    return api<groupResp>(URL_DELETE_PUT_GROUP(groupId), METHOD_PUT(group))
 }
 
 export function getScheduleArr(): Promise<Array<scheduleResp>> {
@@ -44,6 +52,3 @@ export function addSchedule(schedule: scheduleReq): Promise<scheduleResp> {
     return api<scheduleResp>(URL_SCHEDULE(), METHOD_POST(schedule) )
 }
 
-export function updateAuditory(auditoryId: number, auditory: auditoryReq): Promise<auditoryResp> {
-    return api<auditoryResp>(URL_DELETE_PUT_AUDITORY(auditoryId), METHOD_PUT(auditory))
-}

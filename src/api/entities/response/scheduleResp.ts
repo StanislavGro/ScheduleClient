@@ -1,10 +1,13 @@
 import {auditoryResp} from "./auditoryResp";
+import {groupResp} from "./groupResp";
+import {DayResp} from "./DayResp";
+import {TimeResp} from "./TimeResp";
 
 export interface scheduleResp {
-    _id?: number
-    day: string
-    time: string
+    id: number
+    day: DayResp
+    time: TimeResp
     week: number
     auditory: auditoryResp
-    group: auditoryResp
+    group: groupResp
 }

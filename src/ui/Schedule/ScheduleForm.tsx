@@ -3,7 +3,7 @@ import { Properties } from '../Properties'
 import {scheduleReq} from '../../api/entities/request/scheduleReq'
 import {scheduleResp} from '../../api/entities/response/scheduleResp'
 
-import './scheduleForm.css'
+import './css/scheduleForm.css'
 import {getGroupArr} from "../../api/ScheduleApi";
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
 import {groupResp} from "../../api/entities/response/groupResp";

@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react'
 import { Properties } from '../Properties'
 import { AuditoryForm } from './AuditoryForm'
 import {auditoryReq} from '../../api/entities/request/auditoryReq'
-import './../Schedule/main.css'
-import './../Schedule/scheduleCard.css'
-import './../Schedule/scheduleForm.css'
-import './../Schedule/schedulePage.css'
+import '../Schedule/css/main.css'
+import '../Schedule/css/scheduleCard.css'
+import '../Schedule/css/scheduleForm.css'
+import '../Schedule/css/schedulePage.css'
 import {deleteAuditory, getAuditoryArr, updateAuditory} from "../../api/ScheduleApi";
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
 import {AuditoryPage} from "../../ui/Auditory/AuditoryPage"

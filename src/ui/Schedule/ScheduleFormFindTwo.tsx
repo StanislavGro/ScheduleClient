@@ -4,8 +4,8 @@ import { Properties } from '../Properties'
 import './scheduleFormFindTwo.css'
 
 interface Props {
-    week: number
-    numberOfHours: number
+    week?: number
+    numberOfHours?: number
     onSubmit: (week: number, numberOfHours: number) => void
 }
 

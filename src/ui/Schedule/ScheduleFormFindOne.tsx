@@ -4,7 +4,7 @@ import { Properties } from '../Properties'
 import './scheduleFormFindOne.css'
 
 interface Props {
-    time: string
+    time?: string
     onSubmit: (time: string) => void
 }
 

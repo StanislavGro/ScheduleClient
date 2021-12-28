@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScheduleCard} from './ScheduleCard';
 import {ScheduleForm} from './ScheduleForm';
 import {ScheduleFormFindOne} from './ScheduleFormFindOne';
 import {ScheduleFormFindTwo} from './ScheduleFormFindTwo';
 import {scheduleResp} from '../../api/entities/response/scheduleResp'
 import {scheduleReq} from '../../api/entities/request/scheduleReq'
+import {getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
 
 
 export const SchedulePage: React.FC = () => {
@@ -14,7 +15,17 @@ export const SchedulePage: React.FC = () => {
     const [findFormShow, setFindFormShow] = useState(false)
     const [findFormShow2, setFindFormShow2] = useState(false)
 
+
     const [search, setSearch] = useState<{ [key: string]: any }>({})
+
+    const refresh = () => {
+        return getScheduleArr()
+            .then(res => setScheduleRespArr(res))
+    }
+
+    useEffect(() => {
+        refresh()
+    },[])
 
     const onAddSubmit = (schedule: scheduleReq) => {
         // ScheduleCollection.insert(schedule)
@@ -41,30 +52,30 @@ export const SchedulePage: React.FC = () => {
                     <ScheduleForm onSubmit={onAddSubmit} />
                 }
             </div>
-            <div className="card2">
-                <button className="button2" onClick={() => {
-                    if (findFormShow)
-                        onFindSubmit('')
-                    setFindFormShow(!findFormShow)
-                }}>{`${findFormShow ? 'Отмена' : 'Поиск по всему семестру'}`}</button>
-                {findFormShow &&
-                    <ScheduleFormFindOne onSubmit={onFindSubmit} />
-                }
-            </div>
-            <div className="card3">
-                <button className="button3" onClick={() => {
-                    if (findFormShow2)
-                        onFindSubmit2(0)
-                    setFindFormShow2(!findFormShow2)
-                }}>{`${findFormShow2 ? 'Отмена' : 'Поиск по недели'}`}</button>
-                {findFormShow2 &&
-                    <ScheduleFormFindTwo onSubmit={onFindSubmit2} />
-                }
-            </div>
+            {/*<div className="card2">*/}
+            {/*    <button className="button2" onClick={() => {*/}
+            {/*        if (findFormShow)*/}
+            {/*            onFindSubmit('')*/}
+            {/*        setFindFormShow(!findFormShow)*/}
+            {/*    }}>{`${findFormShow ? 'Отмена' : 'Поиск по всему семестру'}`}</button>*/}
+            {/*    {findFormShow &&*/}
+            {/*        <ScheduleFormFindOne onSubmit={onFindSubmit} />*/}
+            {/*    }*/}
+            {/*</div>*/}
+            {/*<div className="card3">*/}
+            {/*    <button className="button3" onClick={() => {*/}
+            {/*        if (findFormShow2)*/}
+            {/*            onFindSubmit2(0)*/}
+            {/*        setFindFormShow2(!findFormShow2)*/}
+            {/*    }}>{`${findFormShow2 ? 'Отмена' : 'Поиск по недели'}`}</button>*/}
+            {/*    {findFormShow2 &&*/}
+            {/*        <ScheduleFormFindTwo onSubmit={onFindSubmit2} />*/}
+            {/*    }*/}
+            {/*</div>*/}
             <div>
                 {
                     scheduleRespArr != undefined &&
-                    scheduleRespArr.map(schedule => <ScheduleCard key={schedule._id} scheduleRequest={schedule} />)
+                    scheduleRespArr.map(schedule => <ScheduleCard key={schedule.id} scheduleReqArr={s => getScheduleArr().finally(() => refresh())} scheduleId={schedule.id} scheduleRequest={schedule} />)
                 }
             </div>
         </div>

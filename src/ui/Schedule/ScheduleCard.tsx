@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import { Properties } from '../Properties'
-import { ScheduleForm } from './ScheduleForm'
+import {Properties} from '../Properties'
+import {ScheduleForm} from './ScheduleForm'
 import {scheduleReq} from '../../api/entities/request/scheduleReq'
-import './../Schedule/main.css'
-import './../Schedule/scheduleCard.css'
-import './../Schedule/scheduleForm.css'
-import './../Schedule/schedulePage.css'
-import {addSchedule, getScheduleArr} from "../../api/ScheduleApi";
+import './css/main.css'
+import './css/scheduleCard.css'
+import './css/scheduleForm.css'
+import './css/schedulePage.css'
+import {getScheduleArr} from "../../api/ScheduleApi";
 import {scheduleResp} from "../../api/entities/response/scheduleResp";
-import './scheduleCard.css'
-import {auditoryReq} from "../../api/entities/request/auditoryReq";
-import {auditoryResp} from "../../api/entities/response/auditoryResp";
 
 
 interface Props {
@@ -20,6 +17,8 @@ interface Props {
 }
 
 export const ScheduleCard: React.FC<Props> = ({ scheduleRequest, scheduleId, scheduleReqArr}) => {
+
+    console.log("Стелишь бро! "+scheduleRequest.day.day)
 
     const [isEdit, setIsEdit] = useState(false)
     const [scheduleRespArr, setScheduleRespArr] = useState<scheduleResp[]>()
@@ -50,8 +49,9 @@ export const ScheduleCard: React.FC<Props> = ({ scheduleRequest, scheduleId, sch
                 :
                 <div className="schedule-card__main">   
                     <Properties title="Номер недели:" value={scheduleRequest.week} />
-                    <Properties title="День недели:" value={scheduleRequest.day} />
-                    <Properties title="Промежуток времени:" value={scheduleRequest.time} />
+                    <Properties title="День недели:" value={scheduleRequest.day.day} />
+                    <Properties title="Время начала:" value={scheduleRequest.time.timeStart} />
+                    <Properties title="Время окончания:" value={scheduleRequest.time.timeEnd} />
                     <Properties title="Группа:" value={scheduleRequest.group.group} />
                     <Properties title="Аудитория:" value={scheduleRequest.auditory.auditory} />
                 </div>

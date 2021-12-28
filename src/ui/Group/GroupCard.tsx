@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import { Properties } from '../Properties'
-import { GroupForm } from './GroupForm'
+import {Properties} from '../Properties'
+import {GroupForm} from './GroupForm'
 import {groupReq} from '../../api/entities/request/groupReq'
-import './../Schedule/main.css'
-import './../Schedule/scheduleCard.css'
-import './../Schedule/scheduleForm.css'
-import './../Schedule/schedulePage.css'
-import {deleteAuditory, deleteGroup, getGroupArr} from "../../api/ScheduleApi";
+import '../Schedule/css/main.css'
+import '../Schedule/css/scheduleCard.css'
+import '../Schedule/css/scheduleForm.css'
+import '../Schedule/css/schedulePage.css'
+import {deleteGroup, getGroupArr, updateGroup} from "../../api/ScheduleApi";
 import {groupResp} from "../../api/entities/response/groupResp";
-import {auditoryReq} from "../../api/entities/request/auditoryReq";
-import {auditoryResp} from "../../api/entities/response/auditoryResp";
 
 
 interface Props {
@@ -32,8 +30,11 @@ export const GroupCard: React.FC<Props> = ({ groupRequest, groupId, groupReqArr 
     },[])
 
     const onEdit = (newGroup: groupReq) => {
-        console.log("Редактируем" + groupRequest)
-
+        console.log("Редактируем " + groupRequest.group)
+        console.log("Редактируем " + newGroup.group)
+        console.log("Редактируем " + groupId)
+        updateGroup(groupId, newGroup).finally(() => refresh())
+        setIsEdit(false)
         setIsEdit(false)
     }
 
