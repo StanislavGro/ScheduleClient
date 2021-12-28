@@ -6,7 +6,7 @@ import './css/main.css'
 import './css/scheduleCard.css'
 import './css/scheduleForm.css'
 import './css/schedulePage.css'
-import {getScheduleArr} from "../../api/ScheduleApi";
+import {getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
 import {scheduleResp} from "../../api/entities/response/scheduleResp";
 
 
@@ -45,7 +45,7 @@ export const ScheduleCard: React.FC<Props> = ({ scheduleRequest, scheduleId, sch
     return (
         <div className="card schedule-card">
             {isEdit ?
-                <ScheduleForm scheduleRequest={scheduleRequest} onSubmit={onEdit} />
+                <ScheduleForm scheduleRequest={scheduleRequest} auditoryReqArr={s => getAuditoryArr().finally(() => refresh())} onSubmit={onEdit} />
                 :
                 <div className="schedule-card__main">   
                     <Properties title="Номер недели:" value={scheduleRequest.week} />

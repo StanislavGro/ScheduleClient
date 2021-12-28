@@ -1,49 +1,59 @@
-import React, { useState } from 'react'
-import { Properties } from '../Properties'
+import React, {useEffect, useState} from 'react'
+import {Properties} from '../Properties'
 import {scheduleReq} from '../../api/entities/request/scheduleReq'
-import {scheduleResp} from '../../api/entities/response/scheduleResp'
-
 import './css/scheduleForm.css'
-import {getGroupArr} from "../../api/ScheduleApi";
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
 import {groupResp} from "../../api/entities/response/groupResp";
+import {getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
+import {auditoryReq} from "../../api/entities/request/auditoryReq";
 
 interface Props {
     scheduleRequest?: scheduleReq
+    auditoryReqArr?: ( a: auditoryReq) => void
     onSubmit: (scheduleReq_: scheduleReq) => void
 }
 
-export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, onSubmit }) => {
+export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr, onSubmit }) => {
 
     const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
     const [groupRespArr, setGroupRespArr] = useState<groupResp[]>()
 
 
-    const [day, setDay] = useState(scheduleRequest?.day ?? '')
-    const [time, setTime] = useState(scheduleRequest?.time ?? '')
+    const [day, setDay] = useState(scheduleRequest?.day.day ?? '')
+    const [timeStart, setTimeStart] = useState(scheduleRequest?.time.timeStart ?? '')
+    const [timeEnd, setTimeEnd] = useState(scheduleRequest?.time.timeEnd ?? '')
     const [week, setWeek] = useState(scheduleRequest?.week ?? 0)
-    const [auditory_, setAuditory] = useState(scheduleRequest?.auditory.auditory)
-    const [group_, setGroup] = useState(scheduleRequest?.group.group)
+    const [auditory_, setAuditory] = useState(scheduleRequest?.auditory.auditory ?? '')
+    const [group_, setGroup] = useState(scheduleRequest?.group.group ?? '')
 
 
     const onClick = () => {
-        console.log("1 " + " " + day + " " + time + " " + group_ + " " + auditory_)
-        if (day === '' || time === '' || week === 0 || auditory_ === '' || group_ === '') return
+        console.log("1 " + " " + day + " " + timeStart + " " + timeEnd + " " + group_ + " " + auditory_)
+        if (day === '' || timeStart === ''|| timeEnd === '' || week === 0 || auditory_ === '' || group_ === '') return
         onSubmit({
-            day,
-            time,
-            week,
+            day: { day:scheduleRequest?.day.day ?? ''},
+            time: {timeStart: scheduleRequest?.time.timeStart ?? '', timeEnd: scheduleRequest?.time.timeEnd ?? ''},
+            week: scheduleRequest?.week ?? 0,
             auditory: {auditory: auditory_ ?? ''},
             group: { group: group_ ?? ''},
         })
         setDay('')
-        setTime('')
+        setTimeStart('')
+        setTimeEnd('')
         setWeek(0)
         setAuditory('')
         setGroup('')
-        console.log("2 " + " " + day + " " + time + " " + group_ + " " + auditory_)
+        console.log("1 " + " " + day + " " + timeStart + " " + timeEnd + " " + group_ + " " + auditory_)
     }
-    
+
+    const refresh = () => {
+        return getAuditoryArr()
+            .then(res => setAuditoryRespArr(res))
+    }
+
+    useEffect(() => {
+        refresh()
+    },[])
 
     return (
         <div className="schedule-form">
@@ -83,16 +93,28 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, onSubmit }) => 
                     <option value="Суббота">Суббота</option>
                 </select>
             </Properties>
-            <Properties title="Промежуток времени:" >
-                <select defaultValue="defaultTimePeriod" onChange={e => setTime(e.target.value)}>
+            <Properties title="Время начала:" >
+                <select defaultValue="defaultTimePeriod" onChange={e => setTimeStart(e.target.value)}>
                     <option disabled value="defaultTimePeriod">-</option>
-                    <option value="8:30-10:00">8:30-10:00</option>
-                    <option value="10:15-11:45">10:15-11:45</option>
-                    <option value="12:00-13:30">12:00-13:30</option>
-                    <option value="14:00-15:30">14:00-15:30</option>
-                    <option value="15:45-17:15">15:45-17:15</option>
-                    <option value="17:30-19:00">17:30-19:00</option>
-                    <option value="19:15-20:45">19:15-20:45</option>
+                    <option value="8:30">8:30</option>
+                    <option value="10:15">10:15</option>
+                    <option value="12:00">12:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:45">15:45</option>
+                    <option value="17:30">17:30</option>
+                    <option value="19:15">19:15</option>
+                </select>
+            </Properties>
+            <Properties title="Промежуток времени:" >
+                <select defaultValue="defaultTimePeriod" onChange={e => setTimeEnd(e.target.value)}>
+                    <option disabled value="defaultTimePeriod">-</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:45">11:45</option>
+                    <option value="13:30">13:30</option>
+                    <option value="15:30">15:30</option>
+                    <option value="17:15">17:15</option>
+                    <option value="19:00">19:00</option>
+                    <option value="20:45">20:45</option>
                 </select>
             </Properties>
             <Properties title="Группа:">
@@ -109,6 +131,8 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, onSubmit }) => 
                     }
                 </select>
             </Properties>
+            {                        console.log(auditoryReqArr)
+            }
             <Properties title="Аудитория:" value={
                 <select defaultValue="defaultAudtory" onChange={e => setAuditory(e.target.value)}>
                     <option disabled value="defaultAudtory">-</option>
@@ -117,7 +141,7 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, onSubmit }) => 
                         auditoryRespArr.map(a =>
                             <option key={a.id} value={a.auditory}>
                                 {
-                                    a.auditory
+                                    auditoryReqArr
                                 }
                             </option>)
                     }

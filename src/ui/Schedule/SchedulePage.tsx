@@ -5,7 +5,7 @@ import {ScheduleFormFindOne} from './ScheduleFormFindOne';
 import {ScheduleFormFindTwo} from './ScheduleFormFindTwo';
 import {scheduleResp} from '../../api/entities/response/scheduleResp'
 import {scheduleReq} from '../../api/entities/request/scheduleReq'
-import {getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
+import {addSchedule, getAuditoryArr, getScheduleArr} from "../../api/ScheduleApi";
 
 
 export const SchedulePage: React.FC = () => {
@@ -28,7 +28,8 @@ export const SchedulePage: React.FC = () => {
     },[])
 
     const onAddSubmit = (schedule: scheduleReq) => {
-        // ScheduleCollection.insert(schedule)
+        console.log("Добавление " + schedule.auditory)
+        addSchedule(schedule).finally(()=>refresh())
         setAddFormShow(false)
     }
 
