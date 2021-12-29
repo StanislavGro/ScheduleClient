@@ -4,16 +4,15 @@ import {scheduleReq} from '../../api/entities/request/scheduleReq'
 import './css/scheduleForm.css'
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
 import {groupResp} from "../../api/entities/response/groupResp";
-import {getAuditoryArr, getGroupArr, getScheduleArr} from "../../api/ScheduleApi";
+import {getAuditoryArr, getGroupArr} from "../../api/ScheduleApi";
 import {auditoryReq} from "../../api/entities/request/auditoryReq";
 
 interface Props {
     scheduleRequest?: scheduleReq
-    auditoryReqArr?: ( a: auditoryReq) => void
     onSubmit: (scheduleReq_: scheduleReq) => void
 }
 
-export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr, onSubmit }) => {
+export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, onSubmit }) => {
 
     const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
     const [groupRespArr, setGroupRespArr] = useState<groupResp[]>()
@@ -29,6 +28,7 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr,
 
     const onClick = () => {
         console.log("1 " + " " + day + " " + timeStart + " " + timeEnd + " " + group_ + " " + auditory_)
+
         if (day === '' || timeStart === ''|| timeEnd === '' || week === 0 || auditory_ === '' || group_ === '') return
         onSubmit({
             day: { day:day},
@@ -40,19 +40,14 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr,
         console.log("2 " + " " + day + " " + timeStart + " " + timeEnd + " " + group_ + " " + auditory_)
     }
 
-    const refresh = () => {
-        getGroupArr().then(res => setGroupRespArr(res))
-        return getAuditoryArr().then(res => setAuditoryRespArr(res))
-    }
-
     useEffect(() => {
-        refresh()
+        getGroupArr().then(res => setGroupRespArr(res))
+        getAuditoryArr().then(res => setAuditoryRespArr(res))
     },[])
 
     return (
         <div className="schedule-form">
             <Properties title="Номер недели:" >
-                {/*    value={<input type="text" value={week} onChange={e => setWeek(Number.parseInt(e.target.value))} />}*/}
                 <select defaultValue="defaultWeek" onChange={e => setWeek(Number.parseInt(e.target.value))}>
                     <option disabled value="defaultWeek">-</option>
                     <option value="1">1</option>
@@ -76,7 +71,6 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr,
                 </select>
             </Properties>
             <Properties title="День недели:">
-                {/*value={<input type="text" value={day} onChange={e => setDay(e.target.value)} />}*/}
                 <select defaultValue="defaultDay" onChange={e => setDay(e.target.value)} >
                     <option disabled value="defaultDay">-</option>
                     <option value="Понедельник">Понедельник</option>

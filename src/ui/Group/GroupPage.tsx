@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { GroupCard } from './GroupCard';
-import { GroupForm } from './GroupForm';
+import {GroupCard} from './GroupCard';
+import {GroupForm} from './GroupForm';
 import {groupReq} from '../../api/entities/request/groupReq'
 import {groupResp} from '../../api/entities/response/groupResp'
-import {addAuditory, addGroup, getAuditoryArr, getGroupArr} from "../../api/ScheduleApi";
-import {auditoryResp} from "../../api/entities/response/auditoryResp";
-import {AuditoryCard} from "../Auditory/AuditoryCard";
+import {addGroup, deleteGroup, getGroupArr, updateGroup} from "../../api/ScheduleApi";
 
 export const GroupPage: React.FC = () => {
 
@@ -18,6 +16,14 @@ export const GroupPage: React.FC = () => {
         setAddFormShow(false)
     }
 
+    const onEditSubmit = (groupId: number, newGroup:groupReq) => {
+        updateGroup(groupId, newGroup).finally(() => refresh())
+    }
+
+    const onDeleteSubmit = (groupId:number) => {
+        deleteGroup(groupId).finally(() => refresh())
+    }
+
     const refresh = () => {
         return getGroupArr()
             .then(res => setGroupRespArr(res))
@@ -26,6 +32,7 @@ export const GroupPage: React.FC = () => {
     useEffect(() => {
         refresh()
     },[])
+
 
     return (
         <div className="schedule-page">
@@ -40,7 +47,7 @@ export const GroupPage: React.FC = () => {
             <div>
                 {
                     groupRespArr != undefined &&
-                    groupRespArr.map(gro => <GroupCard key={gro.id} groupRequest={gro} groupId = {gro.id} groupReqArr={a => getGroupArr().finally(() => refresh())} />)
+                    groupRespArr.map(gro => <GroupCard key={gro.id} groupRequest={gro} editGroup={onEditSubmit} deleteGroup={onDeleteSubmit} groupId = {gro.id}  />)
                 }
             </div>
         </div>

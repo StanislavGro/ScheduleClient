@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Properties} from '../Properties'
 import {ScheduleForm} from './ScheduleForm'
 import {scheduleReq} from '../../api/entities/request/scheduleReq'
@@ -6,56 +6,37 @@ import './css/main.css'
 import './css/scheduleCard.css'
 import './css/scheduleForm.css'
 import './css/schedulePage.css'
-import {
-    deleteSchedule,
-    getAuditoryArr,
-    getGroupArr,
-    getScheduleArr,
-    updateAuditory,
-    updateSchedule
-} from "../../api/ScheduleApi";
-import {scheduleResp} from "../../api/entities/response/scheduleResp";
+import {getAuditoryArr, getGroupArr} from "../../api/ScheduleApi";
+import {groupResp} from "../../api/entities/response/groupResp";
+import {auditoryResp} from "../../api/entities/response/auditoryResp";
 
 
 interface Props {
     scheduleRequest: scheduleReq
     scheduleId: number
-    scheduleReqArr: ( s: scheduleReq) => void
+    deleteSchedule: (scheduleId: number) => void
+    editSchedule: (scheduleId: number, newSchedule: scheduleReq) => void
 }
 
-export const ScheduleCard: React.FC<Props> = ({ scheduleRequest, scheduleId, scheduleReqArr}) => {
-
-    console.log("Стелишь бро! "+scheduleRequest.day.day)
+export const ScheduleCard: React.FC<Props> = ({ scheduleRequest, scheduleId, deleteSchedule, editSchedule}) => {
 
     const [isEdit, setIsEdit] = useState(false)
-    const [scheduleRespArr, setScheduleRespArr] = useState<scheduleResp[]>()
 
-    const refresh = () => {
-        return getScheduleArr()
-            .then(res => setScheduleRespArr(res))
-    }
-
-    useEffect(() => {
-        refresh()
-    },[])
-
-    const onEdit = (newSchedule: scheduleReq) => {
-        console.log("Редактируем " + scheduleId)
-        console.log("Редактируем " + newSchedule.auditory.auditory)
-        updateSchedule(scheduleId, newSchedule).finally(() => refresh())
+    const onEdit = (newSchedule:scheduleReq) => {
+        editSchedule(scheduleId, newSchedule)
         setIsEdit(false)
     }
 
     const onDelete = () => {
-        console.log("Удаляем " + scheduleId)
-        deleteSchedule(scheduleId).finally(() => refresh())
-        // delete(scheduleId).finally(() => refresh())
+        if (scheduleRequest.day.day === '' || scheduleRequest.time.timeStart === ''|| scheduleRequest.time.timeEnd === ''
+            || scheduleRequest.week === 0 || scheduleRequest.auditory.auditory === '' || scheduleRequest.group.group === '') return
+        deleteSchedule(scheduleId)
     }
 
     return (
         <div className="card schedule-card">
             {isEdit ?
-                <ScheduleForm scheduleRequest={scheduleRequest} auditoryReqArr={s => getAuditoryArr().finally(() => refresh())} onSubmit={onEdit} />
+                <ScheduleForm scheduleRequest={scheduleRequest} onSubmit={onEdit} />
                 :
                 <div className="schedule-card__main">   
                     <Properties title="Номер недели:" value={scheduleRequest.week} />

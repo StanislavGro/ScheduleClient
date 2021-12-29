@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Properties} from '../Properties'
 import {GroupForm} from './GroupForm'
 import {groupReq} from '../../api/entities/request/groupReq'
@@ -6,41 +6,27 @@ import '../Schedule/css/main.css'
 import '../Schedule/css/scheduleCard.css'
 import '../Schedule/css/scheduleForm.css'
 import '../Schedule/css/schedulePage.css'
-import {deleteGroup, getGroupArr, updateGroup} from "../../api/ScheduleApi";
-import {groupResp} from "../../api/entities/response/groupResp";
 
 
 interface Props {
     groupRequest: groupReq
     groupId: number
-    groupReqArr: ( g: groupReq) => void}
+    editGroup: (groupId: number ,newGroup: groupReq) => void
+    deleteGroup: (groupId: number) => void
+}
 
-export const GroupCard: React.FC<Props> = ({ groupRequest, groupId, groupReqArr }) => {
+export const GroupCard: React.FC<Props> = ({ groupRequest, groupId, editGroup, deleteGroup }) => {
 
     const [isEdit, setIsEdit] = useState(false)
-    const [groupRespArr, setGroupRespArr] = useState<groupResp[]>()
-
-    const refresh = () => {
-        return getGroupArr()
-            .then(res => setGroupRespArr(res))
-    }
-
-    useEffect(() => {
-        refresh()
-    },[])
 
     const onEdit = (newGroup: groupReq) => {
-        console.log("Редактируем " + groupRequest.group)
-        console.log("Редактируем " + newGroup.group)
-        console.log("Редактируем " + groupId)
-        updateGroup(groupId, newGroup).finally(() => refresh())
-        setIsEdit(false)
+        editGroup(groupId, newGroup)
         setIsEdit(false)
     }
 
     const onDelete = () => {
-        console.log("Удаляем из группы " + groupId)
-        deleteGroup(groupId).finally(() => refresh())
+        if (groupRequest.group === '') return
+        deleteGroup(groupId)
     }
 
     return (

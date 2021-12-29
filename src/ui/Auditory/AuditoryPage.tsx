@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { AuditoryCard } from './AuditoryCard';
-import { AuditoryForm } from './AuditoryForm';
+import {AuditoryCard} from './AuditoryCard';
+import {AuditoryForm} from './AuditoryForm';
 import {auditoryReq} from '../../api/entities/request/auditoryReq'
 import {auditoryResp} from '../../api/entities/response/auditoryResp'
 import {addAuditory, deleteAuditory, getAuditoryArr, updateAuditory} from "../../api/ScheduleApi";
-import {RefreshPage} from "../RefreshPage";
 
 export const AuditoryPage: React.FC = () => {
 

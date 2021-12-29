@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import { Properties } from '../Properties'
+import React, {useState} from 'react'
+import {Properties} from '../Properties'
 import {auditoryReq} from '../../api/entities/request/auditoryReq'
-import {auditoryResp} from '../../api/entities/response/auditoryResp'
 
 //в поле можно ничего не передавать, поэтому auditoryRequest?
 interface Props {
