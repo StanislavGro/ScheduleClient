@@ -14,11 +14,12 @@ import {RefreshPage} from "../RefreshPage"
 interface Props {
     auditoryRequest: auditoryReq
     auditoryId: number
+    editParking: (auditoryId: number ,newAuditory: auditoryReq) => void
     deleteParking: (auditoryId: number) => void
 
 }
 
-export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, deleteParking}) => {
+export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, editParking, deleteParking}) => {
 
     const [isEdit, setIsEdit] = useState(false)
     // const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
@@ -33,14 +34,11 @@ export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, del
     // },[])
 
     const onEdit = (newAuditory: auditoryReq) => {
-        console.log("Редактируем " + auditoryRequest.auditory)
-        console.log("Редактируем " + newAuditory.auditory)
-        console.log("Редактируем " + auditoryId)
-        // updateAuditory(auditoryId, newAuditory).finally(() => refresh())
-        // setIsEdit(false)
+        editParking(auditoryId,newAuditory)
+        setIsEdit(false)
     }
 
-    const onClick = () => {
+    const onDelete = () => {
         if (auditoryRequest.auditory === '') return
         deleteParking(auditoryId)
     }
@@ -59,7 +57,7 @@ export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, del
             }
             <div className="schedule-card__controls">
                 <button className="button" onClick={() => setIsEdit(!isEdit)}>{isEdit ? 'Отмена' : 'Редактировать'}</button>
-                <button className="button button_red" onClick={onClick}>Удалить</button>
+                <button className="button button_red" onClick={onDelete}>Удалить</button>
             </div>
         </div>
     )
