@@ -9,42 +9,46 @@ import '../Schedule/css/schedulePage.css'
 import {deleteAuditory, getAuditoryArr, updateAuditory} from "../../api/ScheduleApi";
 import {auditoryResp} from "../../api/entities/response/auditoryResp";
 import {AuditoryPage} from "../../ui/Auditory/AuditoryPage"
+import {RefreshPage} from "../RefreshPage"
 
 interface Props {
     auditoryRequest: auditoryReq
     auditoryId: number
-    auditoryReqArr: ( a: auditoryReq) => void
     deleteParking: (auditoryId: number) => void
 
 }
 
-export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, auditoryReqArr }) => {
-
+export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, deleteParking}) => {
 
     const [isEdit, setIsEdit] = useState(false)
-    const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
+    // const [auditoryRespArr, setAuditoryRespArr] = useState<auditoryResp[]>()
 
-    const refresh = () => {
-        return getAuditoryArr()
-            .then(res => setAuditoryRespArr(res))
-    }
-
-    useEffect(() => {
-        refresh()
-    },[])
+    // const refresh = () => {
+    //     return getAuditoryArr()
+    //         .then(res => setAuditoryRespArr(res))
+    // }
+    //
+    // useEffect(() => {
+    //     refresh()
+    // },[])
 
     const onEdit = (newAuditory: auditoryReq) => {
         console.log("Редактируем " + auditoryRequest.auditory)
         console.log("Редактируем " + newAuditory.auditory)
         console.log("Редактируем " + auditoryId)
-        updateAuditory(auditoryId, newAuditory).finally(() => refresh())
-        setIsEdit(false)
+        // updateAuditory(auditoryId, newAuditory).finally(() => refresh())
+        // setIsEdit(false)
     }
 
-    const onDelete = () => {
-        console.log("Удаляем " + auditoryId)
-        deleteAuditory(auditoryId).finally(() => refresh())
+    const onClick = () => {
+        if (auditoryRequest.auditory === '') return
+        deleteParking(auditoryId)
     }
+
+    // const onDelete = () => {
+    //     console.log("Удаляем " + auditoryId)
+    //     deleteAuditory(auditoryId).finally(() => refresh())
+    // }
 
     return (
         <div className="card schedule-card">
@@ -55,7 +59,7 @@ export const AuditoryCard: React.FC<Props> = ({ auditoryRequest, auditoryId, aud
             }
             <div className="schedule-card__controls">
                 <button className="button" onClick={() => setIsEdit(!isEdit)}>{isEdit ? 'Отмена' : 'Редактировать'}</button>
-                <button className="button button_red" onClick={onDelete}>Удалить</button>
+                <button className="button button_red" onClick={onClick}>Удалить</button>
             </div>
         </div>
     )

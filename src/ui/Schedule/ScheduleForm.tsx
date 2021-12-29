@@ -99,7 +99,7 @@ export const ScheduleForm: React.FC<Props> = ({ scheduleRequest, auditoryReqArr,
                     <option value="19:15">19:15</option>
                 </select>
             </Properties>
-            <Properties title="Промежуток времени:" >
+            <Properties title="Время окончания:" >
                 <select defaultValue="defaultTimePeriod" onChange={e => setTimeEnd(e.target.value)}>
                     <option disabled value="defaultTimePeriod">-</option>
                     <option value="10:00">10:00</option>

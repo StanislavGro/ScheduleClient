@@ -4,6 +4,7 @@ import { AuditoryForm } from './AuditoryForm';
 import {auditoryReq} from '../../api/entities/request/auditoryReq'
 import {auditoryResp} from '../../api/entities/response/auditoryResp'
 import {addAuditory, deleteAuditory, getAuditoryArr} from "../../api/ScheduleApi";
+import {RefreshPage} from "../RefreshPage";
 
 export const AuditoryPage: React.FC = () => {
 
@@ -14,6 +15,10 @@ export const AuditoryPage: React.FC = () => {
         console.log("Добавление " + " " + auditory.auditory)
         addAuditory(auditory).finally(()=>refresh())
         setAddFormShow(false)
+    }
+
+    const onDeleteSubmit = (auditoryId: number) => {
+        deleteAuditory(auditoryId).finally(() => refresh())
     }
 
     const refresh = () => {
@@ -41,9 +46,7 @@ export const AuditoryPage: React.FC = () => {
                     auditoryRespArr.map(audit => <AuditoryCard key={audit.id}
                                                                auditoryRequest={audit}
                                                                auditoryId = {audit.id}
-                                                               auditoryReqArr={a => getAuditoryArr().finally(() => refresh())}
-                                                               deleteParking={auditoryId => { deleteAuditory(auditoryId).finally(() => refresh()) }
-                                                               }/>)
+                                                               deleteParking={onDeleteSubmit} />)
                 }
             </div>
         </div>
